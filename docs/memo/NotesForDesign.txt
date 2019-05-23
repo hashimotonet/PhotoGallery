@@ -1,0 +1,15 @@
+★<INPUT TYPE="BUTTON">に対するクラス属性は、常に以下の属性を使用する。
+
+<input type="button" value="Sign Out" class="btn btn-primary btn-sm" onClick="javascript:doSignOut()" />
+
+★上記は、以下のcdnjs.cloudflare.comにより配布されているCSS定義を使用するものである。
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" />
+
+
+☆今回は、HTML5を使用するため、HTMLソースのページヘッダには下記のような宣言を行う。
+<!DOCTYPE html>
+<html>
+<head>
