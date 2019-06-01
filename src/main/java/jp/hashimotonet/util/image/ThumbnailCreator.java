@@ -169,6 +169,10 @@ public class ThumbnailCreator {
             out = new FileOutputStream(outFile);
             ImageIO.write(image_2, extension, out);
 
+            // BufferedImageをflushする。
+            image_2.flush();
+            image_1.flush();
+
             // 画像を90℃回転する。
             outFile = rotateImage(outFile.getAbsolutePath());
         } catch(Exception e) {

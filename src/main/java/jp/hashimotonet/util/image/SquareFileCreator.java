@@ -58,6 +58,10 @@ public class SquareFileCreator {
                     (this.width/2));
         }
         ImageIO.write(output, "JPG", new File(outName));
+
+        // BufferedImageをflushする。
+        output.flush();
+        img.flush();
     }
 
 }

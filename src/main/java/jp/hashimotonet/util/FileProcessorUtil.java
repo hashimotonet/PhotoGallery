@@ -79,6 +79,7 @@ public final class FileProcessorUtil {
         BufferedImage bufImage = aaa(imageBinary);
         OutputStream out = new FileOutputStream(path);
         ImageIO.write(bufImage, "jpg", out);
+        bufImage.flush();
     }
 
     private byte[] decodeBase64Bytes(byte[] src) {
