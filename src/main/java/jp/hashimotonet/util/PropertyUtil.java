@@ -50,7 +50,7 @@ public final class PropertyUtil {
 	public String get(String key) {
 		String value = this.prop.getProperty(key);
 
-		log.debug("value = " + value);
+		log.trace("value = " + value);
 
 		return value;
 	}
