@@ -20,8 +20,10 @@
 
     <!-- キャプチャした静止画が描画されます。 -->
     <canvas id="capture_image"></canvas>
-    <form id="frm">
+    <form id="frm" name="frm">
+      <input type="hidden" name="id" value="hashimoto" />
       <button type="button" id="btn-send" class="btn btn-primary btn-sm">サーバへ保存</button>
+      <button type="button" id="btn-disp" class="btn btn-primary btn-sm">一覧画面表示</button>
     </form>
 
 </body>
@@ -88,7 +90,7 @@ window.onload = ()=>{
       const param  = {
         method: "POST",
         headers: {
-          "Content-Type": "application/json; charset=utf-8"
+          "Content-Type": "application/base64; charset=utf-8"
         },
         body: JSON.stringify({data: canvas})
       };
@@ -96,7 +98,15 @@ window.onload = ()=>{
       // サーバへ送信
       sendServer(SAVE_URL, param);
     });
-  };
+
+   document.querySelector("#btn-disp").addEventListener("click", ()=>{
+	   document.frm.action="ListImages";
+	   document.frm.method="post";
+	   document.frm.submit();
+   });
+
+};
+
 
   /**
    * サーバへJSON送信
