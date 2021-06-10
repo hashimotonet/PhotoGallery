@@ -27,7 +27,8 @@
           <target>1.8</target>
 		  <skip>true</skip>
 	      <failOnMissingWebXml>false</failOnMissingWebXml>
-          <warSourceDirectory>WebContent</warSourceDirectory>
+          <warSourceDirectory>src/main/webapp</warSourceDirectory>
+          <webappDirectory>/opt/apache-tomcat/webapps</webappDirectory>
           <packagingExcludes>WEB-INF/lib/javax.servlet-api-4.0.1.jar</packagingExcludes>
         </configuration>
       </plugin>
