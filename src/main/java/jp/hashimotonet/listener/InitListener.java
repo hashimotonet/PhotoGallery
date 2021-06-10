@@ -27,6 +27,11 @@ import jp.hashimotonet.util.FileProcessorUtil;
 public final class InitListener implements ServletContextListener {
 
     /**
+     * 画像Data Access Object.
+     */
+	PhotoDao dao = null;
+
+    /**
      * Logger for this class.
      */
     private Logger log = LogManager.getLogger(InitListener.class);
@@ -43,7 +48,13 @@ public final class InitListener implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce)  {
-
+    	if (dao != null) {
+    		try {
+				dao.close();
+			} catch (SQLException e) {
+				log.catching(e);
+			}
+    	}
     }
 
     /**
@@ -54,8 +65,6 @@ public final class InitListener implements ServletContextListener {
 
         log.info("\n---contextInitialized() Started.---");
 
-        // DBよりファイルに落とす id の一覧を取得する。
-        PhotoDao dao = null;
 
         try {
 
