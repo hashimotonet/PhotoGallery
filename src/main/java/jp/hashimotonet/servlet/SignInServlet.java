@@ -88,6 +88,9 @@ public final class SignInServlet extends HttpServlet {
             // 主処理に失敗
             doGet(request, response);
         }
+        
+        // HTTPステータスコードに400を設定。
+        response.setStatus(HttpServletResponse.SC_OK);
 
     }
 

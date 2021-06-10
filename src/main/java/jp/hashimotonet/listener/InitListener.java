@@ -54,18 +54,19 @@ public final class InitListener implements ServletContextListener {
 
         log.info("\n---contextInitialized() Started.---");
 
+        // DBよりファイルに落とす id の一覧を取得する。
+        PhotoDao dao = null;
+
         try {
 
-            // DBよりファイルに落とす id の一覧を取得する。
-            PhotoDao dao = new PhotoDao();
+        	dao = new PhotoDao();
 
             List<String> identities = dao.getIdentities();
 
             ServletContext context = sce.getServletContext();
 
             for(String id : identities) {
-
-
+            	
                 // id で示されるディレクトリが存在するか？
                 File parent = FileProcessorUtil.getParentDir(id, context);
 
@@ -92,6 +93,17 @@ public final class InitListener implements ServletContextListener {
 
         } catch(URISyntaxException | SQLException | IOException | ClassNotFoundException e ) {
             e.printStackTrace();
+            log.catching(e);
+        } catch(Exception e) {
+        	log.catching(e);
+        } finally {
+        	if (dao != null) {
+        		try {
+					dao.close();
+				} catch (SQLException e) {
+					log.catching(e);
+				} 
+        	}
         }
 
         log.info("\n---contextInitialized() Ended.---");

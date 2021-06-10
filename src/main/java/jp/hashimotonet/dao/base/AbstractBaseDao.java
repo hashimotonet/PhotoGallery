@@ -50,7 +50,7 @@ public abstract class AbstractBaseDao {
             IOException,
             URISyntaxException {
         // MySQLドライバをロード
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
         // プロパティ読み込みユーティリティを起動
         PropertyUtil util = new PropertyUtil(property);

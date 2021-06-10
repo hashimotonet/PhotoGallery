@@ -63,7 +63,17 @@ public final class ListImagesAction {
                     ServletException {
         // 返却値をFALSEで初期化
         boolean result = false;
-
+        
+        /*
+         *  Android端末からの要求であるかについて、ユーザーエージェントにて判定。
+         */
+        final String USER_AGENT = "User-Agent";
+        final String LINUX = "Linux;";
+        final String ANDROID = "Android";
+        String userAgent = request.getHeader(USER_AGENT);
+        int linux = userAgent.indexOf(LINUX);
+        int android = userAgent.indexOf(ANDROID);
+        
         // 入力ストリーム取得。
         InputStream is = request.getInputStream();
 
@@ -139,8 +149,12 @@ public final class ListImagesAction {
 
         // クライアントへ要求処理結果に関して応答を行う。
         PrintWriter out = response.getWriter();
-        out.println("success");
-        out.println(JSON.encode(urls, true));
+        if (linux > 0 && android > 0) {
+            out.println(JSON.encode(urls, true));
+        } else {
+            request.setAttribute("images", JSON.encode(urls, true));
+            request.getServletContext().getRequestDispatcher("/display.jsp").forward(request, response);
+        }
 
         // 処理は成功したので、処理結果を真とする。
         result = true;
