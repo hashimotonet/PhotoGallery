@@ -60,8 +60,10 @@ public final class SignInServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        // tryブロックに入ります
+    	
+    	String id = request.getParameter("id");
+    	
+    	// tryブロックに入ります
         try {
 
             // サインインのアクションをコールします。
@@ -75,7 +77,7 @@ public final class SignInServlet extends HttpServlet {
                 // 例外をスローします。
                 throw new Exception("Actionで false が返却されました。");
             } else {
-                response.getWriter().print("success");
+                response.sendRedirect("/photo.jsp?id=" + id);
             }
 
         } catch(Exception e) {    // 例外である場合
