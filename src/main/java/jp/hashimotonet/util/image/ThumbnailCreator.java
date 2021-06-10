@@ -176,7 +176,7 @@ public class ThumbnailCreator {
             // 画像を90℃回転する。
             outFile = rotateImage(outFile.getAbsolutePath());
         } catch(Exception e) {
-            e.printStackTrace();
+            log.catching(e);
 
         } finally {
             if (out != null) {
@@ -206,7 +206,7 @@ public class ThumbnailCreator {
             //180度のときのアウトプット画像バッファ
             //BufferedImage outBuff = new BufferedImage(inBuff.getWidth(), inBuff.getHeight(), inBuff.getType());
             //90度、270度のときのアウトプット画像バッファ
-            BufferedImage outBuff = new BufferedImage(inBuff.getHeight(), inBuff.getWidth(), inBuff.getType());
+            BufferedImage outBuff = new BufferedImage(inBuff.getHeight(), inBuff.getWidth(), (inBuff.getType()==0?5:inBuff.getType()));
             op.filter(inBuff, outBuff);
 
             // ファイルへ書き込み。

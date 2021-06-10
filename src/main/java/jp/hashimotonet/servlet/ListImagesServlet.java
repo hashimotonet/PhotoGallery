@@ -75,7 +75,13 @@ public class ListImagesServlet extends HttpServlet {
 
             // 例外ログを出力する。
             log.catching(e);
+            
+            // 内部サーバーエラー(500）を返却する。
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+
+        // HTTPステータスコード(200）を返却する。
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
 }

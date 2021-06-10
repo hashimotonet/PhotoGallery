@@ -57,12 +57,26 @@ public class UploadServlet extends HttpServlet {
 
         // リクエスト電文の内容をログ出力する。
         List<String> datas = printRequestedValues(request);
+        
+        /*
+         *  Android端末からの要求であるかについて、ユーザーエージェントにて判定。
+         */
+        final String USER_AGENT = "User-Agent";
+        final String LINUX = "Linux;";
+        final String ANDROID = "Android";
+        String userAgent = request.getHeader(USER_AGENT);
+        int linux = userAgent.indexOf(LINUX);
+        int android = userAgent.indexOf(ANDROID);
 
         // try 節に入る。
         try {
 
             // アップロードアクションクラスの実行メソッドをコールする。
-            new UploadAction().execute(request);
+            if (linux > 0 && android > 0) {
+            	new UploadAction().execute(request);
+            } else {
+            	new UploadAction().executeRendering(request);
+            }
 
             // クライアントへレスポンス返却
             sendResponse(response);
@@ -76,6 +90,8 @@ public class UploadServlet extends HttpServlet {
             // サーブレット返却コードに500（サーバー内部エラー）を設定する。
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+        
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**
@@ -92,8 +108,9 @@ public class UploadServlet extends HttpServlet {
     protected void sendResponse(HttpServletResponse response)
             throws IOException {
         PrintWriter out = response.getWriter();
-        out.print("success");
+        //out.print("success");
         out.close();
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**
