@@ -179,14 +179,29 @@ public final class ListImagesAction {
         URLHolder bean = new URLHolder();
 
       ServletContext sc = req.getServletContext();
-
+      
+      // 送信元URLを取得
+      String requestUrl = req.getRequestURL().toString();
+      boolean https = false;
+      if (requestUrl != null) {
+    	  if (requestUrl.startsWith("https://")) {
+    		  https = true;
+    	  }
+      }
+      
       for(URLHolder file : files) {
           // 画像イメージのURLを生成する。
-          String url = "http://"
-                          + req.getServerName()
-                          + ":" + req.getServerPort()
-                          + sc.getContextPath()
-                          + file.getUrl();
+          String url = null;
+          if (https) {
+        	  url = "https://";
+          } else {
+        	  url = "http://";
+          }
+          url = url 
+              + req.getServerName()
+              + ":" + req.getServerPort()
+              + sc.getContextPath()
+              + file.getUrl();
           log.debug("url    = " + url);
 
           // URLHolderにURLをセット。
