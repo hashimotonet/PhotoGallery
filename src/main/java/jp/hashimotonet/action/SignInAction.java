@@ -83,12 +83,17 @@ public final class SignInAction {
         int authority = 0;
 
         // 要求電文よりIDとパスワードを取得する。
-        // フロントエンドは、HttpURLConnectionでアクセスするので、#getParameter()は使えず、
-        // #getInputStream()で入力ストリームより電文を解析取得する方法で対処を行う。
-        InputStream is = request.getInputStream();
+        id = request.getParameter("id");
+        if (BaseUtil.isNotEmpty(id)) {
+        	password = request.getParameter("password");
+        } else {
+            // フロントエンドは、HttpURLConnectionでアクセスするので、#getParameter()は使えず、
+            // #getInputStream()で入力ストリームより電文を解析取得する方法で対処を行う。
+            InputStream is = request.getInputStream();
 
-        // インスタンス変数に電文の内容をセット。
-        getRequestParameters(is);
+            // インスタンス変数に電文の内容をセット。
+            getRequestParameters(is);
+        }
 
         // HTTPセッションを取得する。
         HttpSession session = request.getSession();
