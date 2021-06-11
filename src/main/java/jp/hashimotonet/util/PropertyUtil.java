@@ -4,9 +4,8 @@
 package jp.hashimotonet.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
@@ -65,11 +64,10 @@ public final class PropertyUtil {
 	 *
 	 */
 	private void init(String file)
-				throws IOException,
-						URISyntaxException {
-		String url = getURLAsString(file);
+				throws IOException {
+		InputStream in = getStreamByURL(file);
 		prop = new Properties();
-		prop.load((new InputStreamReader(new FileInputStream(url))));
+		prop.load(in);
 	}
 
 	/**
@@ -103,6 +101,25 @@ public final class PropertyUtil {
 
 		// 引数であるクラスパス資源の絶対パスを返却する
 		return path;
+	}
+	
+	/**
+	 * 引数のファイル名をクラスパスリソースから検索し
+	 * 取得したURLよりInputStreamを取得して返却します。
+	 * 
+	 * @param fileName クラスパス資源であるファイル
+	 * @return InputStream ファイルの入力ストリーム
+	 * @throws IOException 入出力例外
+	 */
+	private InputStream getStreamByURL(String fileName) throws IOException {
+		InputStream in = null;
+		
+		// 当クラスからクラスローダを取得し、クラスパス資源のURLを求める
+		URL url = this.getClass().getClassLoader().getResource(fileName);
+		
+		in = url.openStream();
+
+		return in;
 	}
 
 }
