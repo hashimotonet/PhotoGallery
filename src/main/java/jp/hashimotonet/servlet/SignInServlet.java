@@ -77,7 +77,9 @@ public final class SignInServlet extends HttpServlet {
                 // 例外をスローします。
                 throw new Exception("Actionで false が返却されました。");
             } else {
-                response.sendRedirect(getServletContext().getContextPath() + "/photo.jsp?id=" + id);
+            	String sendURL = getServletContext().getContextPath() + "/photo.jsp?id=" + id;
+            	log.debug("sendURL = " + sendURL);
+                response.sendRedirect(sendURL);
             }
 
         } catch(Exception e) {    // 例外である場合
