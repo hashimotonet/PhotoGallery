@@ -82,9 +82,15 @@ public final class PropertyUtil {
 	 */
 	private String getURLAsString(String fileName)
 			throws URISyntaxException{
+		
+		log.debug("fileName = " + fileName);
 
 		// 当クラスからクラスローダを取得し、クラスパス資源のURLを求める
 		URL url = this.getClass().getClassLoader().getResource(fileName);
+		
+		log.debug("url = " + url.toString());
+		
+		log.debug("uri = " + url.toURI());
 
 		// URLよりURIを求め、ファイルオブジェクトを生成する
 		File file = new File(url.toURI());
