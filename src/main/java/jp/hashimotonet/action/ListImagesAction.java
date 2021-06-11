@@ -200,7 +200,6 @@ public final class ListImagesAction {
           url = url 
               + req.getServerName()
               + ":" + req.getServerPort()
-              + sc.getContextPath()
               + file.getUrl();
           log.debug("url    = " + url);
 
