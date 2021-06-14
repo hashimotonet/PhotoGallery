@@ -53,6 +53,9 @@ public final class FileProcessorUtil {
 
         // ファイルオブジェクトを生成
         File file = new File(path);
+        
+        // ファイルはコンテナ終了時にオミットする。
+        file.deleteOnExit();
 
         // ファイルオブジェクトより、ファイル出力ストリーム、バッファ出力ストリームを
         // 生成する。
