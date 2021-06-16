@@ -14,9 +14,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import jp.hashimotonet.bean.RequestBean;
 import jp.hashimotonet.dao.PhotoDao;
 import jp.hashimotonet.model.Photo;
 import jp.hashimotonet.util.FileProcessorUtil;
+import jp.hashimotonet.util.JsonRequestAnalyzer;
 
 /**
  * 画像アップロードとデータベースへの格納を行うアクション。
@@ -127,7 +129,7 @@ public final class UploadAction {
             // ファイルを書き込む。
             String name = FileProcessorUtil.writeOneImageById(request.getServletContext(),
                                                                 id,
-                                                                data);
+                                                                photo);
 
             // ログ出力する。
             log.info("ファイル書き込み完了！：" + name);
@@ -201,34 +203,48 @@ public final class UploadAction {
         // 要求電文を複合し、格納する
         String encoded = new String(in);
 
-        log.trace("encoded = " + encoded);
+        log.trace("encoded = " + encoded.substring(0,400)); // Base64のログが出すぎるためコメント
+        
+        RequestBean json = JsonRequestAnalyzer.parse(encoded);
 
         // IDを取得する。
-        //String id = array[0];
-        String id = "hashimoto";
+        String id = json.getId();
+        
+        String alt = json.getAlt();
+        
+        
+        log.debug("id = " + id);
+        log.debug("alt = " + alt);
+        log.debug("data = " + json.getData());
 
         // '@'文字はURLエンコードされているので、
         // 変換を行う。
-        //id = id.replace("%40", "@");
+        id = id.replace("%40", "@");
 
         // base64文字列を取得する。
-        //base64 = array[1];
-        base64 = getBase64String(encoded);
+        base64 = json.getData();
+        //base64 = getBase64String(encoded);
 
         log.info("id = " + id);
 
         // Base64文字列をバイト配列に複合する。後にBLOBのDB格納値となる。
-        byte[] data = decode2Bytes(base64);
+        byte[] data = null;
 
         // Base64文字列が空文字でなければアップロード完了
-        if ((!base64.equals("")))
+        if ((!base64.equals(""))) {
+        	String delm = ",";
+        	int begin = base64.indexOf(delm);
+        	String src = base64.substring(begin + delm.length());
+        	data = decode2Bytes(src);
             log.info("アップロード完了！");
-        else
+        } else {
             log.warn("データがアップロードされていません！");
+        }
 
         // モデルクラスに値をセットする。
         photo.setIdentity(id);
         photo.setAuthority(1);    // TODO クライアントの権限レベル設定は未実装
+        photo.setAlt(alt);
         photo.setData(data);
 
         // DAOクラスの宣言をする
@@ -258,7 +274,7 @@ public final class UploadAction {
             // ファイルを書き込む。
             String name = FileProcessorUtil.writeOneImageById(request.getServletContext(),
                                                                 id,
-                                                                data);
+                                                                photo);
 
             // ログ出力する。
             log.info("ファイル書き込み完了！：" + name);

@@ -1,8 +1,8 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" session="true" %>
-<%
+<% /*
 	if (session.isNew()) {
 		response.sendRedirect("/");
-	}
+	} */
 %>
 
 <!DOCTYPE html>
@@ -23,7 +23,9 @@
     </div>
 
     <!-- キャプチャした静止画が描画されます。 -->
-    <canvas id="capture_image" width="400" height="320"></canvas>
+    <canvas id="capture_image" width="400" height="320"></canvas><br/>
+    <label for="alt_text">コメントをどうぞ。</label>
+    <input id="alt_text" width="400" />
     <div align="center">
 	    <!-- 押下するとカメラ映像描画を開始します。 -->
 	    <button id="start_btn" class="btn btn-primary btn-sm">映像表示開始</button>
@@ -34,8 +36,9 @@
 	    <p>
 
     <form id="frm" name="frm">
-        <input type="hidden" name="id" value="hashimoto" />
-        
+    
+        <input type="hidden" id="id" name="id" value="<%= request.getAttribute("id") %>" />
+        <% request.setAttribute("id", request.getAttribute("id")); %>
         <button type="button" id="btn-send" class="btn btn-primary btn-sm">サーバへ保存</button>
         
         <button type="button" id="btn-disp" class="btn btn-primary btn-sm">一覧画面表示</button>
@@ -97,10 +100,18 @@ window.onload = ()=>{
 
       //alert(eval(document.getElementById("capture_image")));
 
-      // Canvasのデータを取得
+      // Canvasなどのデータを取得
       const canvas = document.getElementById("capture_image").toDataURL("image/png");  // DataURI Schemaが返却される
-
-      //alert(canvas);
+      const id =document.getElementById("id").value;
+      const alt=document.getElementById("alt_text").value;
+      
+      const json = {
+    		  "id":id,
+    		  "alt":alt,
+    		  "data":canvas
+      };
+      
+      alert(eval(json));
 
       // 送信情報の設定
       const param  = {
@@ -108,7 +119,8 @@ window.onload = ()=>{
         headers: {
           "Content-Type": "application/json; charset=utf-8"
         },
-        body: JSON.stringify({data: canvas})
+        //body: JSON.stringify({data: canvas})
+        body: JSON.stringify(json)
       };
 
       // サーバへ送信

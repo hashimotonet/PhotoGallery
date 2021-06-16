@@ -28,7 +28,7 @@ public class PhotoDao extends AbstractBaseDao {
     /**
      * Insert DML
      */
-    private final String insertSQL = "insert into photo (identity, authority, data) values (?, ?, ?)";
+    private final String insertSQL = "insert into photo (identity, authority, data, alt) values (?, ?, ?, ?)";
 
     private final String selectMaxSQL = "select max(id) from photo";
 
@@ -80,6 +80,7 @@ public class PhotoDao extends AbstractBaseDao {
         stmt.setString(1,photo.getIdentity());    // IDを設定
         stmt.setInt(2, photo.getAuthority());    // 権限を設定
         stmt.setBytes(3, photo.getData());        // 画像バイナリを設定
+        stmt.setString(4, photo.getAlt());
 
         // 挿入処理実行
         result = stmt.executeUpdate();
@@ -99,14 +100,15 @@ public class PhotoDao extends AbstractBaseDao {
      * @return IDによる画像バイナリ
      * @throws SQLException SQL例外
      */
-    public List<byte[]> selectPhotoBlobsById(String id)
+    public List<Photo> selectPhotoBlobsById(String id)
             throws SQLException {
 
         // 戻り値を初期化
-        List<byte[]> result = new ArrayList<byte[]>();
+        List<Photo> result = new ArrayList<Photo>();
+        Photo photo = new Photo();
 
         // DMLを宣言
-        String sql = "select data from photo where identity=?";
+        String sql = "select data, alt,id from photo where identity=? order by id";
 
         // JDBC接続を取得
         Connection conn = super.getConnection();
@@ -124,9 +126,15 @@ public class PhotoDao extends AbstractBaseDao {
         while(rs.next()) {
             // バイナリをバイト配列に取得する
             byte[] data = rs.getBytes("data");
-
-            // 結果のリストに取得したデータを追記
-            result.add(data);
+            String alt = rs.getString("alt");          // 結果のリストに取得したデータを追記
+            int ind = rs.getInt("id");          
+            photo.setData(data);
+            photo.setAlt(alt);
+            photo.setId(ind);
+            
+            result.add(photo);
+            
+            photo = new Photo();
         }
 
         // 結果セットのクローズ
@@ -175,6 +183,30 @@ public class PhotoDao extends AbstractBaseDao {
         close();
         return result;
     }
+    
+    /**
+     * altテキスト取得。
+     * 
+     * @param identity
+     * @return
+     * @throws SQLException
+     */
+    public List<Photo> getAltByIdIdentity(String identity) throws SQLException {
+    	List<Photo> list = new ArrayList<Photo>();
+    	Photo photo = new Photo();
+    	String sql = "select id, alt from photo where identity=? order by id";
+    	PreparedStatement pStmt = super.getConnection().prepareStatement(sql);
+    	pStmt.setString(1, identity);
+    	ResultSet rs = pStmt.executeQuery();
+    	while(rs.next()) {
+	    	photo.setId(rs.getInt("id"));
+	    	photo.setAlt(rs.getString("alt"));
+	    	list.add(photo);
+	    	photo = new Photo();
+    	}
+    	return list;
+    }
+
 
     /**
      * コミットを行うメソッドです。

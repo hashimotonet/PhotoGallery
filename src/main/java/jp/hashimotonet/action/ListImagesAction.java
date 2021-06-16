@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import jp.hashimotonet.bean.URLHolder;
 import jp.hashimotonet.dao.PhotoDao;
+import jp.hashimotonet.model.Photo;
 import jp.hashimotonet.util.BaseUtil;
 import jp.hashimotonet.util.FileProcessorUtil;
 import net.arnx.jsonic.JSON;
@@ -73,6 +74,12 @@ public final class ListImagesAction {
         String userAgent = request.getHeader(USER_AGENT);
         int linux = userAgent.indexOf(LINUX);
         int android = userAgent.indexOf(ANDROID);
+        boolean smartPhone = false;
+        
+        // クライアント端末判定
+        if(linux > 0 && android > 0) {
+        	smartPhone = true;
+        }
         
         // 入力ストリーム取得。
         InputStream is = request.getInputStream();
@@ -82,15 +89,28 @@ public final class ListImagesAction {
         String name = "&status=";
         String id = null;
         String status =  null;
+        
+        log.debug("req = : " + req);
 
+        /*
         if (req.contains(name)) {
             id = req.substring("id=".length(), req.indexOf(name));
             status = req.substring(req.indexOf(name) + name.length());
         } else {
-            id = req.substring("id=".length());
-        }
+            //id = request.getParameter("id");
+        }*/
 
         log.debug("req = " + req);
+
+        id = request.getParameter("id");
+        
+        if (id == null) {
+        	id = (String) request.getAttribute("id");
+        }
+        
+        if (id == null) {
+        	id = req.split("=")[1];
+        }
 
         // ログ出力する
         log.debug("id =" + id + " : status = " + status);
@@ -131,7 +151,7 @@ public final class ListImagesAction {
             PhotoDao dao = new PhotoDao();
 
             // IDが同一であるもののレコードの画像データを取得する
-            List<byte[]> images = dao.selectPhotoBlobsById(id);
+            List<Photo> images = dao.selectPhotoBlobsById(id);
 
             // DAOのクローズ
             dao.close();
@@ -149,10 +169,16 @@ public final class ListImagesAction {
 
         // クライアントへ要求処理結果に関して応答を行う。
         PrintWriter out = response.getWriter();
-        if (linux > 0 && android > 0) {
-            out.println(JSON.encode(urls, true));
+        String output = JSON.encode(urls, true);
+        
+        log.trace(output);
+        
+        if (smartPhone) {
+            out.println(output);
         } else {
-            request.setAttribute("images", JSON.encode(urls, true));
+            //request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("Windows-31J");
+            request.setAttribute("images", output);
             request.getServletContext().getRequestDispatcher("/display.jsp").forward(request, response);
         }
 
@@ -217,6 +243,10 @@ public final class ListImagesAction {
 
           // URLHolderにサムネイルURLをセット。
           bean.setThumbnail(thumb);
+          
+          // altテキストをセット。
+          bean.setAlt(file.getAlt());
+          log.debug("alt = " + file.getAlt());
 
           // 返却値であるリストに、値のセットされたURLHolderを追加。
           result.add(bean);

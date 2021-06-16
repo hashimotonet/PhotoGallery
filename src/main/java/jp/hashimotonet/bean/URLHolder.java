@@ -12,6 +12,8 @@ public class URLHolder {
     private String url;
 
     private String thumbnail;
+    
+    private String alt;
 
     /**
      * デフォルトコンストラクタ
@@ -47,5 +49,19 @@ public class URLHolder {
     public final void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+	/**
+	 * @return alt
+	 */
+	public final String getAlt() {
+		return alt;
+	}
+
+	/**
+	 * @param alt セットする alt
+	 */
+	public final void setAlt(String alt) {
+		this.alt = alt;
+	}
 
 }

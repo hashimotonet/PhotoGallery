@@ -20,6 +20,11 @@ public class RequestBean implements Serializable {
 	 */
 	private String data;
 
+	/**
+	 * altテキスト
+	 */
+	private String alt;
+	
 	public final String getId() {
 		return id;
 	}
@@ -34,6 +39,20 @@ public class RequestBean implements Serializable {
 
 	public final void setData(String data) {
 		this.data = data;
+	}
+
+	/**
+	 * @return alt
+	 */
+	public final String getAlt() {
+		return alt;
+	}
+
+	/**
+	 * @param alt セットする alt
+	 */
+	public final void setAlt(String alt) {
+		this.alt = alt;
 	}
 
 }

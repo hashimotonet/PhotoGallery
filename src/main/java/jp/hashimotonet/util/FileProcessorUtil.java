@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import jp.hashimotonet.bean.URLHolder;
+import jp.hashimotonet.dao.PhotoDao;
+import jp.hashimotonet.model.Photo;
 import jp.hashimotonet.util.image.SquareFileCreator;
 import jp.hashimotonet.util.image.ThumbnailCreator;
 
@@ -48,7 +51,7 @@ public final class FileProcessorUtil {
      * @param bytes 書き込み対象であるバイナリデータ
      * @throws IOException 入出力例外
      */
-    public static File bytes2File(String path, byte[] bytes)
+    public static File bytes2File(String path, Photo bytes)
             throws IOException {
 
         // ファイルオブジェクトを生成
@@ -62,7 +65,7 @@ public final class FileProcessorUtil {
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
 
         // バッファ出力ストリームに書き込み。
-        bos.write(bytes);
+        bos.write(bytes.getData());
 
         // バッファ出力ストリームをフラッシュ。
         bos.flush();
@@ -94,7 +97,7 @@ public final class FileProcessorUtil {
 
     }
 
-    public static List<URLHolder> getListFiles(File parent) {
+    public static List<URLHolder> getListFiles(File parent) throws ClassNotFoundException, SQLException, IOException, URISyntaxException {
         List<String> result = new ArrayList<String>();
         List<URLHolder> holder = new ArrayList<URLHolder>();    // 画像とサムネイル画像のURLを保持する
         URLHolder bean = new URLHolder();
@@ -109,17 +112,27 @@ public final class FileProcessorUtil {
         }
 
         result = BaseUtil.sort(result);
+        
+        List<Photo> altList = new PhotoDao().getAltByIdIdentity(parent.getName());
 
         for (String url : result) {
             bean.setUrl(url);
             bean.setThumbnail("/" + parent.getName() + "/thumbnail/" + url.substring(url.lastIndexOf("/") + 1));
+        	for (Photo photo : altList) {
+        		String urlComp = url.substring(url.lastIndexOf("/") + "/".length(), url.lastIndexOf("."));
+				String idComp = String.valueOf(photo.getId()); 
+        		if (urlComp.equals(idComp)) {
+        			bean.setAlt(photo.getAlt());
+        			break;
+        		}
+        	}
             holder.add(bean);
             bean = new URLHolder();
         }
 
         return holder;
     }
-
+    
     /**
      * フォルダ名がID名であるディレクトリを作り、
      * IDに紐付いたイメージをファイルとして書き込みます。
@@ -134,8 +147,8 @@ public final class FileProcessorUtil {
      * @throws NumberFormatException
      */
     public static synchronized List<URLHolder> writeImageById(ServletContext context,
-            String id,
-            List<byte[]> images)
+            String identity,
+            List<Photo> images)
             throws FileNotFoundException, IOException, NumberFormatException, URISyntaxException {
 
         // 作成するファイル群のリストを初期化
@@ -143,29 +156,33 @@ public final class FileProcessorUtil {
         URLHolder holder = new URLHolder();
 
         // ID名であるディレクトリを作成
-        String directory = mkdir(id, context);
+        String directory = mkdir(identity, context);
 
         // カウンタ初期化
         int index = 1;
 
         // イテレーター取得
-        Iterator<byte[]> iterator = images.iterator();
+        Iterator<Photo> iterator = images.iterator();
+        Photo photo = null;
 
         // イテレーターのループ
         while (iterator.hasNext()) {
+        	photo = iterator.next();
+        	
+        	String id = String.valueOf(photo.getId());
 
             // フォルダのパスとカウンタをファイル名でパスを生成。
-            String path = directory + SEP + index + ".jpg";
+            String path = directory + SEP + id + ".jpg";
 
             log.info("path = " + path);
 
             // パスにバイトバイナリデータでのファイルを生成。
-            File original = bytes2File(path, iterator.next());
+            File original = bytes2File(path, photo);
 
             // サムネイル画像を生成する。
             String dir = directory + SEP + "thumbnail" + SEP;
             String inputFile = original.getAbsolutePath();
-            String outputFile = index + ".jpg";
+            String outputFile = id + ".jpg";
             double rate = Double.valueOf(new PropertyUtil("photograph.properties").get("rate"));
 
             File thumb = new File(dir);
@@ -191,10 +208,10 @@ public final class FileProcessorUtil {
                 = new SquareFileCreator(outputFile, outputFile);
 
             // ファイルURLを作成
-            String url = "/" + id + "/" + index + ".jpg";
+            String url = "/" + identity + "/" + id + ".jpg";
 
             // サムネイル画像ファイルURLを作成
-            String thumbUrl = "/" + id + "/" + "thumbnail/" + index + ".jpg";
+            String thumbUrl = "/" + identity + "/" + "thumbnail/" + id + ".jpg";
 
             // ファイルパスをファイル群のリストに追加
             holder.setUrl(url);
@@ -214,7 +231,7 @@ public final class FileProcessorUtil {
 
     public static String writeOneImageById(ServletContext context,
             String id,
-            byte[] image)
+            Photo image)
             throws IOException, URISyntaxException {
 
         // 作成するファイル群のリストを初期化

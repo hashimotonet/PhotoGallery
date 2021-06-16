@@ -1,7 +1,10 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" session="false" %>
+<%@page 
+	contentType="text/html; charset=Windows-31J" 
+	pageEncoding="UTF-8" 
+	session="false" %>
 <jsp:useBean id="images" class="java.lang.String" scope="request" />
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <style>
 table {
@@ -15,10 +18,13 @@ td {
 	padding: 30px;
 }
 </style>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="css/bootstrap.css" />
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="css/bootstrap.css" />
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="js/JSON-to-Table.min.1.0.0.js"></script>
+<%  //images = new String(images.getBytes("UTF-8"), "UTF-8"); 
+	System.out.println(images);
+%>
 <script type="text/javascript">
   var data = <%= images %>;
 </script>
@@ -31,19 +37,22 @@ $(document).ready(function () {
     	console.log("(i % 4)=" + (i % 4));
         if ( i % 4 == 0) {
   	      src += '<tr><td><a href="' + data[i].url + 
-  	  	        '"><img src="' + data[i].url + 
-  	  	        '" alt=""></a></td>';
+  	  	        '"><img src="' + data[i].url +
+  	  	        '" title="' + data[i].alt + '" ' +
+  	  	        '" alt="' + data[i].alt + '"></a></td>';
         } else if ( (i % 4 == 1) || (i % 4 == 2)) {
    	      src += '<td><a href="' + data[i].url + 
   	        '"><img src="' + data[i].url + 
-  	        '" alt=""></a></td>\r\n';
+	        '" title="' + data[i].alt + '" ' +
+  	        '" alt="' + data[i].alt + '"></a></td>\r\n';
         } else {
   	      src +=
   	  	        '<td><a href="' + data[i].url + 
   	  	        '"><img src="' + data[i].url + 
-  	  	        '" alt=""></a></td></tr>\r\n';
+  	  	        '" title="' + data[i].alt + '" ' +
+  	  	        '" alt="' + data[i].alt + '"></a></td></tr>\r\n';
         }
-        src +="\r\n";
+        src +='\r\n';
         console.log(src);
     }
     src += '</table>';
