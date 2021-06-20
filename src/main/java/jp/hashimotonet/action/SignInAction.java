@@ -82,10 +82,15 @@ public final class SignInAction {
         // アカウント権限。
         int authority = 0;
 
+        // HTTPセッションを取得する。
+        HttpSession session = request.getSession();
+
         // 要求電文よりIDとパスワードを取得する。
         id = request.getParameter("id");
         if (BaseUtil.isNotEmpty(id)) {
-        	password = request.getParameter("password");
+        	if (session.isNew() == true) {
+            	password = request.getParameter("password");
+        	}
         } else {
             // フロントエンドは、HttpURLConnectionでアクセスするので、#getParameter()は使えず、
             // #getInputStream()で入力ストリームより電文を解析取得する方法で対処を行う。
@@ -95,35 +100,40 @@ public final class SignInAction {
             getRequestParameters(is);
         }
 
-        // HTTPセッションを取得する。
-        HttpSession session = request.getSession();
+        // 新規セッション／継続セッションのいずれかを判定
+        if (session.isNew() == true) {
+            // IDが取得できた。
+            if (BaseUtil.isNotEmpty(id)) {
+                // ID でアカウントマスタを検索。
+                if(isAccountExists(id)) {
+                    // ID は存在したので、
+                    // ID とパスワードで、アカウントマスタを検索。
+                    authority = isAccountExists(id,password);
 
-        // IDが取得できた。
-        if (BaseUtil.isNotEmpty(id)) {
-            // ID でアカウントマスタを検索。
-            if(isAccountExists(id)) {
-                // ID は存在したので、
-                // ID とパスワードで、アカウントマスタを検索。
-                authority = isAccountExists(id,password);
-
-                // アカウントマスタの検索結果に、アカウント権限を取得する。
-                if (authority != -1) {
-                    // ここまで例外が起きていないので、処理結果はtrue。
+                    // アカウントマスタの検索結果に、アカウント権限を取得する。
+                    if (authority != -1) {
+                        // ここまで例外が起きていないので、処理結果はtrue。
+                        result = true;
+                    }
+                } else {
+                    // 新規ユーザであるので、登録処理を行う。
+                    createAccount(id, password);
                     result = true;
                 }
-            } else {
-                // 新規ユーザであるので、登録処理を行う。
-                createAccount(id, password);
-                result = true;
             }
+        } else {
+        	// 継続セッションであるので、処理続行。
         }
-
+        
         // セッションにIDを属性としてセットする。
         session.setAttribute("id", id);
 
         // 認証に成功したか。
-        if (result) {
+        if (session.isNew() && result) {
             log.warn("認証成功。");
+        } else if (session.isNew() == false) {
+        	log.info("継続セッションです。");
+        	result = true;
         } else {
             log.warn("認証に失敗しました。");
         }

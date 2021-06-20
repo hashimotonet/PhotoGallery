@@ -24,7 +24,7 @@
 
     <!-- キャプチャした静止画が描画されます。 -->
     <canvas id="capture_image" width="400" height="320"></canvas><br/>
-    <label for="alt_text">コメントをどうぞ。</label>
+    <label for="alt_text">Please insert a comment here.</label>
     <input id="alt_text" width="400" />
     <div align="center">
 	    <!-- 押下するとカメラ映像描画を開始します。 -->
@@ -103,8 +103,14 @@ window.onload = ()=>{
       // Canvasなどのデータを取得
       const canvas = document.getElementById("capture_image").toDataURL("image/png");  // DataURI Schemaが返却される
       const id =document.getElementById("id").value;
-      const alt=document.getElementById("alt_text").value;
+      var    alt=document.getElementById("alt_text").value;
       
+      if( !checkLettersPermitted(alt) ) {
+    	  alert("Please write a comment in English.\r\n入力は半角英数で行ってください。");
+    	  document.getElementById("alt_text").forcus();
+    	  return;
+      }
+
       const json = {
     		  "id":id,
     		  "alt":alt,
@@ -135,6 +141,18 @@ window.onload = ()=>{
 
 };
 
+
+  /**
+   * 半角英数チェック。
+  */
+  function checkLettersPermitted(str){
+    str = (str==null)?"":str;
+    if(str.match(/^[a-zA-Z0-9!-/:-@¥[-`{-~\s]*$/)){
+    	return true;
+    }else{
+	    return false;
+	  }
+  }
 
   /**
    * サーバへJSON送信

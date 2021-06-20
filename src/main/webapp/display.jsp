@@ -1,5 +1,5 @@
 <%@page 
-	contentType="text/html; charset=Windows-31J" 
+	contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8" 
 	session="false" %>
 <jsp:useBean id="images" class="java.lang.String" scope="request" />
@@ -26,7 +26,7 @@ td {
 	System.out.println(images);
 %>
 <script type="text/javascript">
-  var data = <%= images %>;
+  var data = <% out.println(images); %>;
 </script>
 <script type="text/javascript">
 $(document).ready(function () {
@@ -39,21 +39,29 @@ $(document).ready(function () {
   	      src += '<tr><td><a href="' + data[i].url + 
   	  	        '"><img src="' + data[i].url +
   	  	        '" title="' + data[i].alt + '" ' +
-  	  	        '" alt="' + data[i].alt + '"></a></td>';
+  	  	        '" alt="' + data[i].alt + '"></a>' + 
+  	            '<br/>\r\n' +
+  	            '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
+  	  	        '</td>';
         } else if ( (i % 4 == 1) || (i % 4 == 2)) {
    	      src += '<td><a href="' + data[i].url + 
   	        '"><img src="' + data[i].url + 
 	        '" title="' + data[i].alt + '" ' +
-  	        '" alt="' + data[i].alt + '"></a></td>\r\n';
+  	        '" alt="' + data[i].alt + '"></a>' + 
+            '<br/>\r\n' +
+            '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
+  	        '</td>\r\n';
         } else {
   	      src +=
   	  	        '<td><a href="' + data[i].url + 
   	  	        '"><img src="' + data[i].url + 
   	  	        '" title="' + data[i].alt + '" ' +
-  	  	        '" alt="' + data[i].alt + '"></a></td></tr>\r\n';
+  	  	        '" alt="' + data[i].alt + '"></a>' + 
+  	            '<br/>\r\n' +
+  	            '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
+  	  	        '</td></tr>\r\n';
         }
-        src +='\r\n';
-        console.log(src);
+        //console.log(src);
     }
     src += '</table>';
     $("#headline_contents").append(src);
@@ -62,9 +70,14 @@ $(document).ready(function () {
 <title>Display Images</title>
 </head>
 <body bgcolor="black">
-	<div align="right"><h3>hashimoto</h3></div>
+	<div align="right"><h3><%= request.getAttribute("id") %></h3></div>
 	<hr/>
 	<div id="headline_contents" class="customImage"></div>
-	<div align="center"><input type="button" class="btn btn-primary btn-sm" onClick=location.href="./photo.html" value="back" /></div>
+	<div align="center">
+		<form name="frm" method="post" action="/PhotoGallery/SignIn">
+			<input type="hidden" name="id" value='<%= request.getAttribute("id") %>'" />
+			<input type="button" class="btn btn-primary btn-sm" onClick=document.frm.submit(); value="back" />
+		</form>	
+	</div>
 </body>
 </html>

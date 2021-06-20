@@ -168,6 +168,7 @@ public final class ListImagesAction {
         List<URLHolder> urls = createUrlPaths(files, request);
 
         // クライアントへ要求処理結果に関して応答を行う。
+        request.setAttribute("id", id);
         PrintWriter out = response.getWriter();
         String output = JSON.encode(urls, true);
         
@@ -177,7 +178,8 @@ public final class ListImagesAction {
             out.println(output);
         } else {
             //request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("Windows-31J");
+        	response.setContentType("text/json; charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
             request.setAttribute("images", output);
             request.getServletContext().getRequestDispatcher("/display.jsp").forward(request, response);
         }
