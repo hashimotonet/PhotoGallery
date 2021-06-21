@@ -37,7 +37,7 @@ $(document).ready(function () {
     	console.log("(i % 4)=" + (i % 4));
         if ( i % 4 == 0) {
   	      src += '<tr><td><a href="' + data[i].url + 
-  	  	        '"><img src="' + data[i].url +
+  	  	        '" target=\"blank_\"><img src="' + data[i].url +
   	  	        '" title="' + data[i].alt + '" ' +
   	  	        '" alt="' + data[i].alt + '"></a>' + 
   	            '<br/>\r\n' +
@@ -45,7 +45,7 @@ $(document).ready(function () {
   	  	        '</td>';
         } else if ( (i % 4 == 1) || (i % 4 == 2)) {
    	      src += '<td><a href="' + data[i].url + 
-  	        '"><img src="' + data[i].url + 
+  	        '" target=\"blank_\"><img src="' + data[i].url + 
 	        '" title="' + data[i].alt + '" ' +
   	        '" alt="' + data[i].alt + '"></a>' + 
             '<br/>\r\n' +
@@ -54,7 +54,7 @@ $(document).ready(function () {
         } else {
   	      src +=
   	  	        '<td><a href="' + data[i].url + 
-  	  	        '"><img src="' + data[i].url + 
+  	  	        '" target=\"blank_\"><img src="' + data[i].url + 
   	  	        '" title="' + data[i].alt + '" ' +
   	  	        '" alt="' + data[i].alt + '"></a>' + 
   	            '<br/>\r\n' +
