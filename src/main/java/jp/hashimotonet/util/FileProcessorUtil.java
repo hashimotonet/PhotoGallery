@@ -159,7 +159,7 @@ public final class FileProcessorUtil {
         String directory = mkdir(identity, context);
 
         // カウンタ初期化
-        int index = 1;
+        // int index = 1;
 
         // イテレーター取得
         Iterator<Photo> iterator = images.iterator();
@@ -222,7 +222,7 @@ public final class FileProcessorUtil {
             holder = new URLHolder();
 
             // カウンタをインクリメント
-            index++;
+            //index++;
         }
 
         // ファイルパス群のリストを返却
