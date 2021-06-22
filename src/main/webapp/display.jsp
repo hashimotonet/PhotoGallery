@@ -37,26 +37,26 @@ $(document).ready(function () {
     	console.log("(i % 4)=" + (i % 4));
         if ( i % 4 == 0) {
   	      src += '<tr><td><a href="' + data[i].url + 
-  	  	        '" target=\"blank_\"><img src="' + data[i].url +
+  	  	        '" target=\"blank_\"><div align=\"center\"><img src="' + data[i].url +
   	  	        '" title="' + data[i].alt + '" ' +
-  	  	        '" alt="' + data[i].alt + '"></a>' + 
+  	  	        '" alt="' + data[i].alt + '"></div></a>' + 
   	            '<br/>\r\n' +
   	            '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
   	  	        '</td>';
         } else if ( (i % 4 == 1) || (i % 4 == 2)) {
    	      src += '<td><a href="' + data[i].url + 
-  	        '" target=\"blank_\"><img src="' + data[i].url + 
+  	        '" target=\"blank_\"><div align=\"center\"><img src="' + data[i].url + 
 	        '" title="' + data[i].alt + '" ' +
-  	        '" alt="' + data[i].alt + '"></a>' + 
+  	        '" alt="' + data[i].alt + '"></div></a>' + 
             '<br/>\r\n' +
             '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
   	        '</td>\r\n';
         } else {
   	      src +=
   	  	        '<td><a href="' + data[i].url + 
-  	  	        '" target=\"blank_\"><img src="' + data[i].url + 
+  	  	        '" target=\"blank_\"><div align=\"center\"><img src="' + data[i].url + 
   	  	        '" title="' + data[i].alt + '" ' +
-  	  	        '" alt="' + data[i].alt + '"></a>' + 
+  	  	        '" alt="' + data[i].alt + '"></div></a>' + 
   	            '<br/>\r\n' +
   	            '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
   	  	        '</td></tr>\r\n';

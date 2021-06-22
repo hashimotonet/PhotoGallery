@@ -231,8 +231,12 @@ public final class FileProcessorUtil {
 
     public static String writeOneImageById(ServletContext context,
             String id,
-            Photo image)
+            Photo image,
+            int maxId)
             throws IOException, URISyntaxException {
+    	
+    	// ファイル名取得
+    	String fileName = String.valueOf(maxId);
 
         // 作成するファイル群のリストを初期化
         List<String> fileList = new ArrayList<String>();
@@ -279,9 +283,15 @@ public final class FileProcessorUtil {
         }
 
         // フォルダのパスとカウンタをファイル名でパスを生成。
+        /*
         String path = directory + SEP + number + ".jpg";
         String thumbPath = directory + SEP + "thumbnail"  + SEP + number + ".jpg";
         String thumbDir = SEP + "thumbnail" + SEP + number + ".jpg";
+        */
+
+        String path = directory + SEP + fileName + ".jpg";
+        String thumbPath = directory + SEP + "thumbnail"  + SEP + fileName + ".jpg";
+        String thumbDir = SEP + "thumbnail" + SEP + fileName + ".jpg";
 
         log.info("path = " + path);
 
@@ -293,8 +303,9 @@ public final class FileProcessorUtil {
         ThumbnailCreator thumb = new ThumbnailCreator(directory,
                                                        newOne.getAbsolutePath(),
                                                        thumbDir,
-                                                       rate);
-        thumb.createThumbnail();
+                                                     rate);
+        // TODO 暫定コメントアウト。
+        //thumb.createThumbnail();
 
         // 結果を返却。
         return path;

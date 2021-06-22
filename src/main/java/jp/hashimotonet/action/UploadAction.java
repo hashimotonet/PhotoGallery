@@ -124,12 +124,13 @@ public final class UploadAction {
             log.info("コミット完了！");
 
             // インデックスの最大値を取得する。
-            //int max = dao.selectMaxId();
+            int max = dao.selectMaxId();
 
             // ファイルを書き込む。
             String name = FileProcessorUtil.writeOneImageById(request.getServletContext(),
                                                                 id,
-                                                                photo);
+                                                                photo,
+                                                                max);
 
             // ログ出力する。
             log.info("ファイル書き込み完了！：" + name);
@@ -215,7 +216,7 @@ public final class UploadAction {
         
         log.debug("id = " + id);
         log.debug("alt = " + alt);
-        log.debug("data = " + json.getData());
+        if (json.getData() != null) log.debug("data = " + json.getData().substring(0,100));
 
         // '@'文字はURLエンコードされているので、
         // 変換を行う。
@@ -260,6 +261,8 @@ public final class UploadAction {
 
             // DAOクラスの挿入メソッド実行
             int inserted = dao.insert(photo);
+            
+            log.debug(inserted + "件のデータを挿入しました。");
 
             // DAOでコミットを行う
             dao.commit();
@@ -269,12 +272,13 @@ public final class UploadAction {
 
             // TODO DB側でインデックスは管理するので、削除対象になる？
             // インデックスの最大値を取得する。
-            //int max = dao.selectMaxId();
+            int max = dao.selectMaxId();
 
             // ファイルを書き込む。
             String name = FileProcessorUtil.writeOneImageById(request.getServletContext(),
                                                                 id,
-                                                                photo);
+                                                                photo,
+                                                                max);
 
             // ログ出力する。
             log.info("ファイル書き込み完了！：" + name);
