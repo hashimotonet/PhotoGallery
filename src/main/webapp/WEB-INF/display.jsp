@@ -11,7 +11,7 @@ table {
   width: 100%;
 }
 img {
-  height: 200px;
+  height: auto;
   width: 266px;
 }
 td {
