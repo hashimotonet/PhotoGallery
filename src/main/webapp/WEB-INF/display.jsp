@@ -22,9 +22,6 @@ td {
 <link rel="stylesheet" href="css/bootstrap.css" />
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="js/JSON-to-Table.min.1.0.0.js"></script>
-<%  //images = new String(images.getBytes("UTF-8"), "UTF-8"); 
-	System.out.println(images);
-%>
 <script type="text/javascript">
   var data = <% out.println(images); %>;
 </script>
