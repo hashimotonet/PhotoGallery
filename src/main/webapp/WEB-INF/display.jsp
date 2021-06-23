@@ -66,7 +66,7 @@ $(document).ready(function () {
 </script>
 <title>Display Images</title>
 </head>
-<body bgcolor="black">
+<body>
 	<div align="right"><h3><%= request.getAttribute("id") %></h3></div>
 	<hr/>
 	<div id="headline_contents" class="customImage"></div>
