@@ -111,6 +111,11 @@ public final class ListImagesAction {
         if (id == null) {
         	id = req.split("=")[1];
         }
+        
+        // 「@」はURLエンコードされるので置換。
+        if (id != null) {
+        	id = id.replace("%40", "@");
+        }
 
         // ログ出力する
         log.debug("id =" + id + " : status = " + status);
