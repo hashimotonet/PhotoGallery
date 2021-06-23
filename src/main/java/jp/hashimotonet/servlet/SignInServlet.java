@@ -78,7 +78,7 @@ public final class SignInServlet extends HttpServlet {
                 throw new Exception("Actionで false が返却されました。");
             } else {
 //            	String sendURL = getServletContext().getContextPath() + "/photo.jsp?id=" + id;
-            	String sendURL = "/photo.jsp";
+            	String sendURL = "/WEB-INF/photo.jsp";
             	log.debug("sendURL = " + sendURL);
 //                response.sendRedirect(sendURL);
             	request.setAttribute("id", id);

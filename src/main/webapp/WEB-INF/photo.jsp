@@ -117,7 +117,7 @@ window.onload = ()=>{
     		  "data":canvas
       };
       
-      alert(eval(json));
+      //alert(eval(json));
 
       // 送信情報の設定
       const param  = {

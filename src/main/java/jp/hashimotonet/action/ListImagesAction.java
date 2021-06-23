@@ -182,11 +182,13 @@ public final class ListImagesAction {
         if (smartPhone) {
             out.println(output);
         } else {
+        	String path = "/WEB-INF/display.jsp";
+        	
             //request.setCharacterEncoding("UTF-8");
         	response.setContentType("text/json; charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
             request.setAttribute("images", output);
-            request.getServletContext().getRequestDispatcher("/display.jsp").forward(request, response);
+            request.getServletContext().getRequestDispatcher(path).forward(request, response);
         }
 
         // 処理は成功したので、処理結果を真とする。
