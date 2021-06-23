@@ -3,6 +3,11 @@ package jp.hashimotonet.model;
 import java.util.Date;
 
 public class Photo {
+	
+	/**
+	 * id
+	 */
+	private int id;
 
     /**
      * ユーザの識別子
@@ -23,6 +28,11 @@ public class Photo {
      * サムネイル画像データ
      */
     private byte[] thumnail;
+    
+    /**
+     * alt テキスト
+     */
+    private String alt;
 
     /**
      * 作成日
@@ -54,6 +64,20 @@ public class Photo {
     }
 
     /**
+	 * @return id
+	 */
+	public final int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id セットする id
+	 */
+	public final void setId(int id) {
+		this.id = id;
+	}
+
+	/**
      * @return identity
      */
     public String getIdentity() {
@@ -110,6 +134,20 @@ public class Photo {
     }
 
     /**
+	 * @return alt
+	 */
+	public final String getAlt() {
+		return alt;
+	}
+
+	/**
+	 * @param alt セットする alt
+	 */
+	public final void setAlt(String alt) {
+		this.alt = alt;
+	}
+
+	/**
      * @return createdAt
      */
     public Date getCreatedAt() {

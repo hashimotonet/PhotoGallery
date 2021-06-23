@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import jp.hashimotonet.dao.PhotoDao;
+import jp.hashimotonet.model.Photo;
 import jp.hashimotonet.util.FileProcessorUtil;
 
 /**
@@ -89,7 +90,7 @@ public final class InitListener implements ServletContextListener {
                 dao = new PhotoDao();
 
                 // IDが同一であるもののレコードの画像データを取得する
-                List<byte[]> images = dao.selectPhotoBlobsById(id);
+                List<Photo> images = dao.selectPhotoBlobsById(id);
 
                 // DAOのクローズ
                 dao.close();

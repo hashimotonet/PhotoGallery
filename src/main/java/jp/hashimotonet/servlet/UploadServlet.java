@@ -89,6 +89,9 @@ public class UploadServlet extends HttpServlet {
 
             // サーブレット返却コードに500（サーバー内部エラー）を設定する。
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            
+            return;
+            
         }
         
         response.setStatus(HttpServletResponse.SC_OK);

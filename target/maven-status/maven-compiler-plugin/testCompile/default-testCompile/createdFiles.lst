@@ -1,0 +1,4 @@
+jp\hashimotonet\util\ExampleCreateThumbnailImage.class
+jp\hashimotonet\action\UploadActionTest.class
+jp\hashimotonet\util\FileConvertUtilTest.class
+jp\hashimotonet\util\image\SquareFileCreatorTest.class
