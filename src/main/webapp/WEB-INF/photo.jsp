@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="css/bootstrap.css" />
   <title>カメラ撮影画面</title>
 </head>
-<body bgcolor="black">
+<body>
 	<div align="center"><h1>カメラ撮影画面</h1></div>
 
     <!-- カメラ映像が描画されます。 -->
