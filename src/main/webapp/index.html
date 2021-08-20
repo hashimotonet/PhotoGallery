@@ -16,11 +16,19 @@ function doSignOut() {
 </script>
 </head>
 <body>
-<form name="frm" action="./SignIn" method="POST">
-    <input type="text" id="id" name="id" /><br/><br/>
-    <input type="password" id="password" name="password" /><br/><br/>
-    <input type="submit" value="Sign In" class="btn btn-primary btn-sm" /><br/><br/>
-    <input type="button" value= "Sign Out" class="btn btn-primary btn-sm"  onClick="javascript:doSignOut();" />
-</form>
+	<div
+		style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: auto; width: 100px; height: 100px;">
+		<form name="frm" action="./SignIn" method="POST">
+			<input type="text" id="id" name="id" /><br /> <br /> <input
+				type="password" id="password" name="password" /><br />
+			<div
+				style="position: bottom; margin: 0 auto; width:10%; max-width: 100px; height: 100px;">
+				<br /> <input type="submit" value="Sign In"
+					class="btn btn-primary btn-sm" /><br /> <br /> <input
+					type="button" value="Sign Out" class="btn btn-primary btn-sm"
+					onClick="javascript:doSignOut();" />
+			</div>
+		</form>
+	</div>
 </body>
 </html>

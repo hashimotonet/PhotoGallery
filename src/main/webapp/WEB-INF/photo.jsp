@@ -23,7 +23,7 @@
     </div>
 
     <!-- キャプチャした静止画が描画されます。 -->
-    <canvas id="capture_image" width="400" height="320"></canvas><br/>
+    <canvas id="capture_image" width="480" height="320" style="width:240px;"></canvas><br/>
     <label for="alt_text">Please insert a comment here.</label>
     <input id="alt_text" width="400" />
     <div align="center">
