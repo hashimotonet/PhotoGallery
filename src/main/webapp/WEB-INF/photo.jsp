@@ -1,10 +1,4 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" session="true" %>
-<% /*
-	if (session.isNew()) {
-		response.sendRedirect("/");
-	} */
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
