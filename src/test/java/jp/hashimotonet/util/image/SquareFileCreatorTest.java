@@ -3,8 +3,6 @@
  */
 package jp.hashimotonet.util.image;
 
-import java.io.IOException;
-
 /**
  * @author user
  *
@@ -17,6 +15,7 @@ public class SquareFileCreatorTest {
      * {@link jp.hashimotonet.util.image.SquareFileCreator#createSqueare()} のためのテスト・メソッド。
      */
     //@Test
+    /*
     public void testCreateSqueare() {
         target = new SquareFileCreator("test.jpg", "test_after.jpg");
         try {
@@ -25,5 +24,5 @@ public class SquareFileCreatorTest {
             e.printStackTrace();
         }
     }
-
+	*/
 }
