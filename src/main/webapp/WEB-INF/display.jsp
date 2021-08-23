@@ -6,7 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 table {
   width: 100%;
@@ -68,6 +69,10 @@ $(document).ready(function () {
 <title>Display Images</title>
 </head>
 <body>
+	<div align="center">
+		<h1>PhotoGallery</h1>
+		<h5>Displaying your images.</h5>
+	</div>
 	<div align="right"><h3><%= request.getAttribute("id") %></h3></div>
 	<hr/>
 	<div id="headline_contents" class="customImage"></div>
