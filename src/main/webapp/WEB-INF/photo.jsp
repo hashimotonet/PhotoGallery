@@ -1,15 +1,9 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" session="true" %>
-<% /*
-	if (session.isNew()) {
-		response.sendRedirect("/");
-	} */
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.css" />
   <title>カメラ撮影画面</title>
@@ -23,7 +17,7 @@
     </div>
 
     <!-- キャプチャした静止画が描画されます。 -->
-    <canvas id="capture_image" width="400" height="320"></canvas><br/>
+    <canvas id="capture_image" width="480" height="320" style="width:240px;"></canvas><br/>
     <label for="alt_text">Please insert a comment here.</label>
     <input id="alt_text" width="400" />
     <div align="center">
