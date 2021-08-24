@@ -13,10 +13,10 @@ table {
 }
 img {
   height: auto;
-  width: 266px;
+  width: 20%;
 }
 td {
-	padding: 30px;
+	padding: 5px;
 }
 </style>
 <!-- Bootstrap CSS -->
@@ -31,6 +31,36 @@ $(document).ready(function () {
     var len = data.length;
     var src = '<table align="center" width="100%" border="0">\r\n<tr><th></th><th></th><th></th><th></th></tr>\r\n';
     for(var i=0; i < len; i++){
+    	console.log("i=" + i);
+    	console.log("(i % 4)=" + (i % 4));
+        if ( i % 4 == 0) {
+  	      src += '<tr><td><a href="' + data[i].url + 
+  	  	        '" target=\"blank_\"><p align=\"center\"><img src="' + data[i].url +
+  	  	        '" title="' + data[i].alt + '" ' +
+  	  	        '" alt="' + data[i].alt + '"></p></a>' + 
+  	            //'<br/>\r\n' +
+  	            '<p align=\"center\">' + data[i].alt + '</p>\r\n' +
+  	  	        '</td>';
+        } else if ( (i % 4 == 1) || (i % 4 == 2)) {
+   	      src += '<td><a href="' + data[i].url + 
+  	        '" target=\"blank_\"><p align=\"center\"><img src="' + data[i].url + 
+	        '" title="' + data[i].alt + '" ' +
+  	        '" alt="' + data[i].alt + '"></p></a>' + 
+            //'<br/>\r\n' +
+            '<p align=\"center\">' + data[i].alt + '</p>\r\n' +
+  	        '</td>\r\n';
+        } else {
+  	      src +=
+  	  	        '<td><a href="' + data[i].url + 
+  	  	        '" target=\"blank_\"><p align=\"center\"><img src="' + data[i].url + 
+  	  	        '" title="' + data[i].alt + '" ' +
+  	  	        '" alt="' + data[i].alt + '"></p></a>' + 
+  	            //'<br/>\r\n' +
+  	            '<p align=\"center\">' + data[i].alt + '</p>\r\n' +
+  	  	        '</td></tr>\r\n';
+        }
+    }
+/*    for(var i=0; i < len; i++){
     	console.log("i=" + i);
     	console.log("(i % 4)=" + (i % 4));
         if ( i % 4 == 0) {
@@ -59,8 +89,7 @@ $(document).ready(function () {
   	            '<div align=\"center\">' + data[i].alt + '</div>\r\n' +
   	  	        '</td></tr>\r\n';
         }
-        //console.log(src);
-    }
+    } */
     src += '</table>';
     $("#headline_contents").append(src);
 });

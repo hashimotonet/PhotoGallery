@@ -174,7 +174,7 @@ public class ThumbnailCreator {
             image_1.flush();
 
             // 画像を90℃回転する。
-            outFile = rotateImage(outFile.getAbsolutePath());
+            //outFile = rotateImage(outFile.getAbsolutePath());
         } catch(Exception e) {
             log.catching(e);
 
