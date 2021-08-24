@@ -63,11 +63,13 @@ public class UploadServlet extends HttpServlet {
          */
         final String USER_AGENT = "User-Agent";
         final String LINUX = "Linux;";
-        final String ANDROID = "Android";
+        final String ANDROID = "Dalvik";
         String userAgent = request.getHeader(USER_AGENT);
         int linux = userAgent.indexOf(LINUX);
         int android = userAgent.indexOf(ANDROID);
 
+        log.debug(userAgent);
+        
         // try 節に入る。
         try {
 

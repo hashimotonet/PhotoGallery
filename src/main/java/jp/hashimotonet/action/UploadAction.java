@@ -353,6 +353,7 @@ public final class UploadAction {
     }
 
     @SuppressWarnings("unused")
+    
     private byte[] getRequestBase64String2bytes(String base64Data) {
         byte[] data = base64String2ByteArray(base64Data);
         return data;
