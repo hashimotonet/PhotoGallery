@@ -9,8 +9,11 @@
   <title>カメラ撮影画面</title>
 </head>
 <body>
-	<div align="center"><h1>カメラ撮影画面</h1></div>
-
+	<div align="center">
+		<h1>PhotoGallery</h1>
+		<h5>カメラ撮影画面</h5>
+	</div>
+	<hr/>
     <!-- カメラ映像が描画されます。 -->
     <div align="center">
       <video id="video_area" style="background-color: #000"  width="480" height="320" autoplay></video>
