@@ -14,7 +14,7 @@ table {
 }
 img {
   height: auto;
-  width: 20%;
+  width: 80%;
 }
 td {
 	padding: 5px;
