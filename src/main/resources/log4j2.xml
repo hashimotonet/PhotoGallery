@@ -2,7 +2,7 @@
 <Configuration status="off">
 	<!-- Propertiesは、nameの値を変数として使える -->
     <Properties>
-        <Property name="format1">%d{yyyy/MM/dd HH:mm:ss.SSS} [%t] %-6p %c{10}[:%line] %m%n</Property>
+        <Property name="format1">%d{yyyy/MM/dd HH:mm:ss.SSS} [%t] %-6p %c{10}#%method[:%line] %msg%n</Property>
        <!-- ログのフォーマット 
    		%dは日時。{}に日時の形式を指定
    		%tはスレッド名
@@ -18,7 +18,7 @@
  
    <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%t][%c#%M][:%line] %m%n"/>
+      <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}][%-5level][%t][%c#%method][:%line] %msg%n"/>
     </Console>
 
 	<!-- ファイルに出力する設定 -->
