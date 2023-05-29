@@ -28,7 +28,7 @@ public class PhotoDao extends AbstractBaseDao {
     /**
      * Insert DML
      */
-    private final String insertSQL = "insert into photo (identity, authority, data, alt) values (?, ?, ?, ?)";
+    private final String insertSQL = "insert into photo (identity, authority, data) values (?, ?, ?)";
 
     private final String selectMaxSQL = "select max(id) from photo";
 
@@ -80,7 +80,7 @@ public class PhotoDao extends AbstractBaseDao {
         stmt.setString(1,photo.getIdentity());    // IDを設定
         stmt.setInt(2, photo.getAuthority());    // 権限を設定
         stmt.setBytes(3, photo.getData());        // 画像バイナリを設定
-        stmt.setString(4, photo.getAlt());
+        //stmt.setString(4, photo.getAlt());
 
         // 挿入処理実行
         result = stmt.executeUpdate();
@@ -108,7 +108,7 @@ public class PhotoDao extends AbstractBaseDao {
         Photo photo = new Photo();
 
         // DMLを宣言
-        String sql = "select data, alt,id from photo where identity=? order by id";
+        String sql = "select data, id from photo where identity=? order by id";
 
         // JDBC接続を取得
         Connection conn = super.getConnection();
@@ -126,10 +126,10 @@ public class PhotoDao extends AbstractBaseDao {
         while(rs.next()) {
             // バイナリをバイト配列に取得する
             byte[] data = rs.getBytes("data");
-            String alt = rs.getString("alt");          // 結果のリストに取得したデータを追記
+            //String alt = rs.getString("alt");          // 結果のリストに取得したデータを追記
             int ind = rs.getInt("id");          
             photo.setData(data);
-            photo.setAlt(alt);
+            //photo.setAlt(alt);
             photo.setId(ind);
             
             result.add(photo);
@@ -200,7 +200,7 @@ public class PhotoDao extends AbstractBaseDao {
     	ResultSet rs = pStmt.executeQuery();
     	while(rs.next()) {
 	    	photo.setId(rs.getInt("id"));
-	    	photo.setAlt(rs.getString("alt"));
+	    	//photo.setAlt(rs.getString("alt"));
 	    	list.add(photo);
 	    	photo = new Photo();
     	}

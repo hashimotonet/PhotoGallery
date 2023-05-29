@@ -11,16 +11,19 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	  <maven.compiler.source>1.8</maven.compiler.source>
 	  <maven.compiler.target>1.8</maven.compiler.target>
+	  <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <finalName>PhotoGallery</finalName>
     <plugins>
       <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.3.1</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <!-- artifactId>maven-war-plugin</artifactId -->
+        <!-- version>3.3.1</version -->
         <configuration>
-          <release>8</release>
+          <release>11</release>
           <verbose>true</verbose>
           <fork>false</fork>
           <source>1.8</source>
@@ -34,9 +37,62 @@
           <packagingExcludes>WEB-INF/lib/javax.servlet-api-4.0.1.jar</packagingExcludes>
         </configuration>
       </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>      
      </plugins>
-   </build>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									org.apache.maven.plugins
+    								</groupId>
+    								<artifactId>
+    									maven-compiler-plugin
+    								</artifactId>
+    								<versionRange>
+    									[3.3.1,)
+    								</versionRange>
+    								<goals>
+    									<goal>testCompile</goal>
+    									<goal>compile</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
    <dependencies>
+	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+	<dependency>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-compiler-plugin</artifactId>
+	    <version>3.11.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-install-plugin -->
+	<dependency>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-install-plugin</artifactId>
+	    <version>3.1.1</version>
+	</dependency>
     <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
     <dependency>
         <groupId>javax.servlet</groupId>
@@ -97,6 +153,24 @@
         <artifactId>junit-jupiter-api</artifactId>
         <version>5.4.0</version>
     </dependency>
+
+	<dependency>
+		<groupId>com.twelvemonkeys.imageio</groupId>
+		<artifactId>imageio-jpeg</artifactId>
+		<version>3.9.4</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.twelvemonkeys.imageio</groupId>
+		<artifactId>imageio-bmp</artifactId>
+		<version>3.9.4</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.twelvemonkeys.imageio</groupId>
+		<artifactId>imageio-core</artifactId>
+		<version>3.9.4</version>
+	</dependency>
 
    </dependencies>
 </project>

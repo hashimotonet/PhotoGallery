@@ -25,7 +25,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import jp.hashimotonet.bean.URLHolder;
-import jp.hashimotonet.dao.PhotoDao;
 import jp.hashimotonet.model.Photo;
 import jp.hashimotonet.util.image.SquareFileCreator;
 import jp.hashimotonet.util.image.ThumbnailCreator;
@@ -113,19 +112,20 @@ public final class FileProcessorUtil {
 
         result = BaseUtil.sort(result);
         
-        List<Photo> altList = new PhotoDao().getAltByIdIdentity(parent.getName());
+        //List<Photo> altList = new PhotoDao().getAltByIdIdentity(parent.getName());
 
         for (String url : result) {
             bean.setUrl(url);
             bean.setThumbnail("/" + parent.getName() + "/thumbnail/" + url.substring(url.lastIndexOf("/") + 1));
-        	for (Photo photo : altList) {
+        	/*
+            for (Photo photo : altList) {
         		String urlComp = url.substring(url.lastIndexOf("/") + "/".length(), url.lastIndexOf("."));
 				String idComp = String.valueOf(photo.getId()); 
         		if (urlComp.equals(idComp)) {
         			bean.setAlt(photo.getAlt());
         			break;
         		}
-        	}
+        	} */
             holder.add(bean);
             bean = new URLHolder();
         }
@@ -212,6 +212,7 @@ public final class FileProcessorUtil {
 
             // サムネイル画像ファイルURLを作成
             String thumbUrl = "/" + identity + "/" + "thumbnail/" + id + ".jpg";
+            //String thumbUrl = "";
 
             // ファイルパスをファイル群のリストに追加
             holder.setUrl(url);

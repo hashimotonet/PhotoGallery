@@ -64,17 +64,27 @@ public class UploadServlet extends HttpServlet {
         final String USER_AGENT = "User-Agent";
         final String LINUX = "Linux;";
         final String ANDROID = "Dalvik";
+        final String WINDOWS = "Windows";
+        final String MAC = "Mac";
         String userAgent = request.getHeader(USER_AGENT);
         int linux = userAgent.indexOf(LINUX);
         int android = userAgent.indexOf(ANDROID);
+        int win = userAgent.indexOf(WINDOWS);
+        int mac = userAgent.indexOf(MAC);
+        boolean pc = false;
+        
+        if (win > 0 || mac > 0) {
+        	pc = true;
+        }
+        
 
-        log.debug(userAgent);
+        log.info(userAgent);
         
         // try 節に入る。
         try {
 
             // アップロードアクションクラスの実行メソッドをコールする。
-            if (linux > 0 && android > 0) {
+            if (linux > 0 || android > 0 || pc == false ) {
             	new UploadAction().execute(request);
             } else {
             	new UploadAction().executeRendering(request);
