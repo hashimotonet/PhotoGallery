@@ -30,6 +30,11 @@ DDLは当リポジトリに添付していますが、データベースの環�
 
 なお、当プログラムは"[OsaStagram][1]"のサーバーサイドの処理を充足するものです。全体を補完する動作のためには別途提供のAndroid アプリ："[OsaStagram][1]" のようなフロントエンドアプリが必要となります。
 
+【注意点】<br>
+Eclipse での閲覧、及び改変を想定しています。<br>
+<b>Java16以降では、以下の記述を[eclipse.ini]に対して行わないと、[docs]配下に存在している、UMLダイアグラムが表示できません。注意してください。</b><br>
+<code>--add-opens=java.desktop/java.beans=ALL-UNNAMED</code>
+
 [1]: https://github.com/hashimotonet/OsaStagram/
 
 -----------------
