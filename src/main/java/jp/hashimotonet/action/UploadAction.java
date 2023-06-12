@@ -62,22 +62,23 @@ public final class UploadAction {
         String base64 = null;
 
         // 要求電文より入力ストリームを取得
-        InputStream is = request.getInputStream();
+        //InputStream is = request.getInputStream();
 
         // 入力ストリームをバイト配列に変換する
-        byte[] in = IOUtils.toByteArray(is);
+        //byte[] in = IOUtils.toByteArray(is);
 
         // 要求電文を複合し、格納する
-        String encoded = new String(in);
+        //String encoded = new String(in);
 
-        log.trace("encoded = " + encoded);
+        //log.trace("encoded = " + encoded);
 
         // 要求電文を分解。
-        String array[] = getRequestedParameters(encoded);
+        //String array[] = getRequestedParameters(encoded);
 
         // IDを取得する。
-        String id = array[0];
-        //String id = "hashimoto";
+        // id = array[0];
+        String id = "hashimoto";
+        id = request.getParameter("id");
 
         // '@'文字はURLエンコードされているので、
         // 変換を行う。
@@ -85,8 +86,11 @@ public final class UploadAction {
 
         // base64文字列を取得する。
         //base64 = array[1];
-        base64 = getBase64String(encoded);
-
+        //base64 = getBase64String(encoded);
+        base64 = request.getParameter("base64");
+        base64 = base64.replace(" ", "+");
+        
+        log.info(base64.length());
         log.info("id = " + id);
 
         // Base64文字列をバイト配列に複合する。後にBLOBのDB格納値となる。
@@ -204,7 +208,7 @@ public final class UploadAction {
         // 要求電文を複合し、格納する
         String encoded = new String(in);
 
-        log.trace("encoded = " + encoded.substring(0,400)); // Base64のログが出すぎるためコメント
+        //log.trace("encoded = " + encoded.substring(0,400)); // Base64のログが出すぎるためコメント
         
         RequestBean json = JsonRequestAnalyzer.parse(encoded);
 

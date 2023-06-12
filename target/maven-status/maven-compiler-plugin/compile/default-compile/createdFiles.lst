@@ -10,6 +10,7 @@ jp\hashimotonet\util\JsonRequestAnalyzer.class
 jp\hashimotonet\util\image\SquareFileCreatorTest.class
 jp\hashimotonet\util\BaseUtil.class
 jp\hashimotonet\util\FileConvertUtilTest.class
+jp\hashimotonet\util\DalvikAdapterUtil.class
 jp\hashimotonet\listener\InitListener.class
 jp\hashimotonet\util\AndroidDataFormatConvertor.class
 jp\hashimotonet\action\ListImagesAction.class
@@ -22,6 +23,7 @@ jp\hashimotonet\util\ExampleCreateThumbnailImage.class
 jp\hashimotonet\util\FileConvertUtil.class
 jp\hashimotonet\bean\json\ResponseBean.class
 jp\hashimotonet\dao\base\AbstractBaseDao.class
+jp\hashimotonet\util\TestClass.class
 jp\hashimotonet\util\PropertyUtil.class
 jp\hashimotonet\util\image\ThumbnailCreator.class
 jp\hashimotonet\action\UploadAction.class

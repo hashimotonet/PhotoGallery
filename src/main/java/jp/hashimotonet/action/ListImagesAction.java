@@ -72,12 +72,15 @@ public final class ListImagesAction {
         final String LINUX = "Linux;";
         final String ANDROID = "Dalvik";
         String userAgent = request.getHeader(USER_AGENT);
+        
+        log.info("userAgent = " + userAgent);
+        
         int linux = userAgent.indexOf(LINUX);
         int android = userAgent.indexOf(ANDROID);
         boolean smartPhone = false;
         
         // クライアント端末判定
-        if(linux > 0 && android > 0) {
+        if(linux >= 0 && android >= 0) {
         	smartPhone = true;
         }
         
@@ -176,6 +179,8 @@ public final class ListImagesAction {
         request.setAttribute("id", id);
         PrintWriter out = response.getWriter();
         String output = JSON.encode(urls, true);
+        
+        log.info("smartPhone = " + smartPhone);
         
         log.trace(output);
         

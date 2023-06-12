@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import jp.hashimotonet.action.SignInAction;
+import jp.hashimotonet.util.DalvikAdapterUtil;
 
 /**
  * サーブレット実装である SignInServlet クラスです。
@@ -63,6 +64,9 @@ public final class SignInServlet extends HttpServlet {
     	
     	String id = request.getParameter("id");
     	
+    	// ブラウザ経由かAndroidによる要求か判定を行う。
+    	boolean myApp = DalvikAdapterUtil.isDalvik(request); // true であればAndroid。
+    	
     	// tryブロックに入ります
         try {
 
@@ -76,11 +80,11 @@ public final class SignInServlet extends HttpServlet {
             if (result == false) {    // FALSEであれば
                 // 例外をスローします。
                 throw new Exception("Actionで false が返却されました。");
+            } else if (myApp) {
+            	response.getWriter().print("success");
             } else {
-//            	String sendURL = getServletContext().getContextPath() + "/photo.jsp?id=" + id;
             	String sendURL = "/WEB-INF/photo.jsp";
             	log.debug("sendURL = " + sendURL);
-//                response.sendRedirect(sendURL);
             	request.setAttribute("id", id);
             	getServletContext().getRequestDispatcher(sendURL).forward(request, response);
             }
