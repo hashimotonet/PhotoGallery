@@ -84,8 +84,12 @@ public final class InitListener implements ServletContextListener {
 
                 boolean exists = parent.exists();
 
-                log.debug("exists = " + exists);
+                if (false == exists) {
+                	exists = parent.mkdir();
+                }
 
+                log.debug("exists = " + exists);
+                
                 // DAOクラスのインスタンスを作成
                 dao = new PhotoDao();
 

@@ -113,9 +113,10 @@ public abstract class AbstractBaseDao {
     public void close()
             throws SQLException {
 
-        // 接続をクローズします
-        this.conn.close();
-
+    	if (this.conn != null) {
+            // 接続をクローズします
+            this.conn.close();
+    	}
     }
 
     /**

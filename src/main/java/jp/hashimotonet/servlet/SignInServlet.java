@@ -17,7 +17,8 @@ import jp.hashimotonet.util.DalvikAdapterUtil;
 /**
  * サーブレット実装である SignInServlet クラスです。
  */
-@WebServlet(description = "サインインのサーブレットです。", urlPatterns = { "/SignIn" })
+//@WebServlet(description = "サインインのサーブレットです。", urlPatterns = { "/SignIn" })
+@WebServlet("/SignIn")
 public final class SignInServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -45,7 +46,7 @@ public final class SignInServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // 疎通のためにクライアントへサーブレット情報を表示する
         response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -60,7 +61,7 @@ public final class SignInServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	String id = request.getParameter("id");
     	

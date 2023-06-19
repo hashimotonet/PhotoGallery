@@ -172,7 +172,12 @@ public final class FileProcessorUtil {
         	String id = String.valueOf(photo.getId());
 
             // フォルダのパスとカウンタをファイル名でパスを生成。
-            String path = directory + SEP + id + ".jpg";
+        	String path = "";
+        	if (directory.endsWith(SEP)) {
+        		path = directory + id + ".jpg";
+        	} else {
+        		path = directory + SEP + id + ".jpg";
+        	}
 
             log.info("path = " + path);
 
@@ -329,6 +334,9 @@ public final class FileProcessorUtil {
 
         // 親ディレクトリにIDの子ディレクトリ名を付加
         String path = parent + id;
+        if (false == parent.endsWith(SEP)) {
+        	path = parent + SEP + id;
+        }
 
         // ログ出力する。
         log.info(path);
@@ -366,6 +374,10 @@ public final class FileProcessorUtil {
 
         // 親ディレクトリにIDの子ディレクトリ名を付加
         String path = parent + id;
+        
+        if (false == parent.endsWith(SEP) ) {
+        	path = parent + SEP + id;
+        }
 
         log.debug("path = " + path);
 
@@ -378,7 +390,13 @@ public final class FileProcessorUtil {
         String parent = context.getRealPath("/");
 
         // 親ディレクトリにIDの子ディレクトリ名を付加
-        String path = parent + id;
+        String path = "";
+        if (parent.endsWith("\\")) {
+        	path = parent + id;
+        } else {
+        	path = parent + "\\" + id;
+        }
+        
 
         log.debug("path = " + path);
 
