@@ -10,6 +10,14 @@
   <name>PhotoGallery</name>
   <description>OsaStagramのサーバーサイドアプリです。</description>
 
+  <repositories>
+    <repository>
+      <id>org.mybatis.generator</id>
+      <name>mybatis-generator-maven-plugin</name>
+      <url>https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-maven-plugin</url>
+    </repository>
+  </repositories>
+
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	  <maven.compiler.source>1.8</maven.compiler.source>
@@ -24,9 +32,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <!-- artifactId>maven-war-plugin</artifactId -->
-        <!-- version>3.3.1</version -->
+        <version>3.11.0</version>
         <configuration>
-          <release>11</release>
           <verbose>true</verbose>
           <fork>false</fork>
           <source>1.8</source>
@@ -40,18 +47,23 @@
           <packagingExcludes>WEB-INF/lib/javax.servlet-api-4.0.1.jar</packagingExcludes>
         </configuration>
       </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>3.3.1</version>
-        </plugin>
-        <plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.3.1</version>
+      </plugin>
+      <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
           <version>3.1.1</version>
-        </plugin>      
+      </plugin>
+      <plugin>
+	    <groupId>org.mybatis.generator</groupId>
+	    <artifactId>mybatis-generator-maven-plugin</artifactId>
+	    <version>1.4.0</version>
+      </plugin>
      </plugins>
-    <pluginManagement>
+     <pluginManagement>
     	<plugins>
     		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
     		<plugin>
@@ -89,6 +101,12 @@
     </pluginManagement>
   </build>
    <dependencies>
+	<!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-maven-plugin -->
+	<dependency>
+	    <groupId>org.mybatis.generator</groupId>
+	    <artifactId>mybatis-generator-maven-plugin</artifactId>
+	    <version>1.4.0</version>
+	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 	<dependency>
 	    <groupId>org.apache.maven.plugins</groupId>
@@ -178,6 +196,27 @@
 		<groupId>com.twelvemonkeys.imageio</groupId>
 		<artifactId>imageio-core</artifactId>
 		<version>3.9.4</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.mybatis.dynamic-sql/mybatis-dynamic-sql -->
+	<dependency>
+	    <groupId>org.mybatis.dynamic-sql</groupId>
+	    <artifactId>mybatis-dynamic-sql</artifactId>
+	    <version>1.5.0</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+	<dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.5.13</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.apache.ibatis/ibatis-core -->
+	<dependency>
+	    <groupId>org.apache.ibatis</groupId>
+	    <artifactId>ibatis-core</artifactId>
+	    <version>3.0</version>
 	</dependency>
 
    </dependencies>
