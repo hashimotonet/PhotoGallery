@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.hashimotonet.mybatis.entity.mapper.AccountMapper">
+  <insert id="save" keyProperty="identity" keyColumn="identity">
+    INSERT INTO gallery.account (identity, password) VALUES ( #{identity, jdbcType=NVARCHAR}, #{password, jdbcType=NVARCHAR} )
+  </insert>
+</mapper>
