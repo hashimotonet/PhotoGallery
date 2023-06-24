@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,7 +70,7 @@ public final class SignInAction {
      * @throws URISyntaxException URIシンタックス例外
      * @throws ClassNotFoundException クラスが見つからない例外
      */
-    public boolean execute(HttpServletRequest request, HttpServletResponse response)
+    public boolean execute(SqlSession sqlSession, HttpServletRequest request, HttpServletResponse response)
             throws ServletException,
                     IOException,
                     SQLException,
@@ -117,7 +118,7 @@ public final class SignInAction {
                     }
                 } else {
                     // 新規ユーザであるので、登録処理を行う。
-                    createAccount(id, password);
+                    createAccount(sqlSession, id, password);
                     result = true;
                 }
             }
@@ -215,26 +216,26 @@ public final class SignInAction {
         return authority;
     }
 
-    private boolean createAccount(String identity, String password)
+    private boolean createAccount(SqlSession sqlSession, String identity, String password)
             throws SQLException,
                     ClassNotFoundException,
                     IOException,
                     URISyntaxException {
         boolean result = false;
 
-        AccountDao dao = new AccountDao();
+        AccountDao dao = new AccountDao(sqlSession);
         result = dao.createAccout(identity, password);
 
         // アカウント作成処理は成功したか？
         if (result == true)
         { // 成功したので確定する。
-            dao.commit();
+            dao.commit(sqlSession);
         } else
         { // 作成処理に失敗したので、更新取消を行う。
-            dao.rollback();
+            dao.rollback(sqlSession);
         }
 
-        dao.close();
+        dao.close(sqlSession);
 
         return result;
     }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,7 +62,7 @@ public final class SignInServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	String id = request.getParameter("id");
     	
@@ -74,8 +75,9 @@ public final class SignInServlet extends HttpServlet {
             // サインインのアクションをコールします。
             SignInAction action = new SignInAction();
 
-            // アクションの実行メソッドをコールします、
-            boolean result = action.execute(request, response);
+            // アクションの実行メソッドをコールします。
+            SqlSession sqlSession = null;
+            boolean result = action.execute(sqlSession, request, response);
 
             // アクションの実行結果がFALSEであるか
             if (result == false) {    // FALSEであれば

@@ -46,7 +46,7 @@ public class UploadServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // 要求電文に対するキャラクタセットの指定。

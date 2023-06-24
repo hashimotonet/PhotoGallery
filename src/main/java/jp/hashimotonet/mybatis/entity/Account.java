@@ -1,6 +1,7 @@
 package jp.hashimotonet.mybatis.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
 
 public class Account {

@@ -6,8 +6,9 @@ import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Generated;
-import jp.hashimotonet.mybatis.entity.Account;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,6 +32,8 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
+import jp.hashimotonet.mybatis.entity.Account;
 
 @Mapper
 public interface AccountMapper {
@@ -197,4 +200,10 @@ public interface AccountMapper {
             .where(id, isEqualTo(record::getId))
         );
     }
+    
+    /**
+     * ユーザアカウント登録
+     * @param account
+     */
+    void save(Account account);
 }

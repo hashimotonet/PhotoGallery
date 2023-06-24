@@ -7,7 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.ibatis.session.SqlSession;
+
 import jp.hashimotonet.dao.base.AbstractBaseDao;
+import jp.hashimotonet.mybatis.entity.Account;
+import jp.hashimotonet.mybatis.entity.mapper.AccountMapper;
 
 /**
  * Accountテーブルに対するDataAccessObjectです。
@@ -17,11 +21,28 @@ import jp.hashimotonet.dao.base.AbstractBaseDao;
  */
 public final class AccountDao extends AbstractBaseDao {
 
+	/**
+	 * MyBatisセッション
+	 */
+    private SqlSession session;
+    
     public AccountDao()
             throws ClassNotFoundException,
                     IOException,
                     URISyntaxException {
         super();
+    }
+    
+    /**
+     * MyBatisセッションを引数に受け取るコンストラクタ
+     * 
+     * @param session
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public AccountDao(SqlSession session) throws URISyntaxException, IOException, ClassNotFoundException {
+    	this.session = session;
     }
 
     /**
@@ -97,6 +118,7 @@ public final class AccountDao extends AbstractBaseDao {
             throws SQLException {
         boolean result  = false;
 
+        /*
         String sql = "insert into gallery.account "
                 + "(identity, password) "
                 + " values ( ?, ? )";
@@ -119,7 +141,22 @@ public final class AccountDao extends AbstractBaseDao {
         // レコード挿入成功可否を返却する。
         if (one == 1) result = true;
 
+        */
+        Account account = new Account();
+        account.setIdentity(identity);
+        account.setPassword(password);
+        
+        session = super.openSession();;
+
+        if(session != null) {
+            //session.insert("INSERT INTO gallery.account (identity, password) VALUES ( #{identity}, #{password} )", account);
+            AccountMapper mapper = session.getMapper(AccountMapper.class);
+            mapper.save(account);
+        	result = true;
+        }
+        
         return result;
+        
     }
 
 }

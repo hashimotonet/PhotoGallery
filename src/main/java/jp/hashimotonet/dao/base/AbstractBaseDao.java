@@ -1,10 +1,16 @@
 package jp.hashimotonet.dao.base;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import jp.hashimotonet.util.PropertyUtil;
 
@@ -34,6 +40,26 @@ public abstract class AbstractBaseDao {
      * JDBC接続オブジェクト
      */
     private Connection conn;
+    
+    /**
+     * MyBatisのSQLセッション
+     */
+    private SqlSession mybatisSession;
+    
+	/**
+	 * 自動コミットモード
+	 * Commit/Rollbackは明示的に行うため、必ず false を設定。
+	 */
+    private final boolean autoCommitMode = false;
+    
+    /**
+     * 
+     */
+    private final boolean debug = true;
+    
+    public AbstractBaseDao(SqlSession sqlSession) {
+    	this.mybatisSession = sqlSession;
+    }
 
     /**
      * デフォルトコンストラクタ
@@ -60,6 +86,18 @@ public abstract class AbstractBaseDao {
         this.user = util.get("USER"); // ユーザ名を取得
         this.password = util.get("PASSWORD"); // パスワードを取得
     }
+    
+    public synchronized SqlSession openSession() {
+    	
+    	try {
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(new InputStreamReader(Resources.getResourceAsStream("mybatis-config.xml")));
+            mybatisSession = sqlSessionFactory.openSession(debug);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return mybatisSession;
+    }
 
     /**
      * JDBC接続を取得するメソッド
@@ -78,6 +116,17 @@ public abstract class AbstractBaseDao {
         // オープンしたJDBC接続を返却する
         return conn;
     }
+    
+    /**
+     * JDBCセッションをコミットします。
+     * 
+     * @param session
+     */
+    public void commit(SqlSession session) {
+    	if (session != null) {
+    		session.commit(true);
+    	}
+    }
 
     /**
      * JDBC接続をコミットします。
@@ -90,6 +139,17 @@ public abstract class AbstractBaseDao {
         // 接続をコミットします
         this.conn.commit();
 
+    }
+    
+    /**
+     * JDBCセッションをロールバックします。
+     * 
+     * @param session
+     */
+    public void rollback(SqlSession session) {
+    	if (session != null) {
+    		session.rollback(false);
+    	}
     }
 
     /**
@@ -120,12 +180,28 @@ public abstract class AbstractBaseDao {
     }
 
     /**
+     * JDBCセッションをクローズします。
+     * 
+     * @param session
+     */
+    public void close(SqlSession session) {
+    	if (session != null) {
+    		session.close();
+    	}
+    	
+    	if (this.mybatisSession != null) {
+    		this.mybatisSession.close();
+    	}
+    }
+    
+    /**
      * デストラクタです。
      */
     @Override
     public void finalize()
             throws SQLException {
-        close();
+    	close();
+    	close(this.mybatisSession);
     }
 
 }
