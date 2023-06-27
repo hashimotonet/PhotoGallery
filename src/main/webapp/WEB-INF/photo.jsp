@@ -7,6 +7,15 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.css" />
   <title>カメラ撮影画面</title>
+<script type="text/javascript">
+function doSignOut() {
+    frm.action = "./SignOut";
+    frm.method = "post";
+    frm.submit();
+
+    return;
+}
+</script>
 </head>
 <body>
 	<div align="center">
@@ -38,7 +47,9 @@
         <% request.setAttribute("id", request.getAttribute("id")); %>
         <button type="button" id="btn-send" class="btn btn-primary btn-sm">サーバへ保存</button>
         
-        <button type="button" id="btn-disp" class="btn btn-primary btn-sm">一覧画面表示</button>
+        <button type="button" id="btn-disp" class="btn btn-primary btn-sm">一覧画面表示</button><br><br><br>
+        
+        <button type="button" id="sign-out" class="btn btn-primary btn-sm" onClick="javascript:doSignOut();">サインアウト</button>
     </form>
       </div>
 
