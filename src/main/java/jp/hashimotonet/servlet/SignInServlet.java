@@ -70,13 +70,13 @@ public final class SignInServlet extends HttpServlet {
     	boolean myApp = DalvikAdapterUtil.isDalvik(request); // true であればAndroid。
     	
     	// tryブロックに入ります
+        SqlSession sqlSession = null;
         try {
 
             // サインインのアクションをコールします。
             SignInAction action = new SignInAction();
 
             // アクションの実行メソッドをコールします。
-            SqlSession sqlSession = null;
             boolean result = action.execute(sqlSession, request, response);
 
             // アクションの実行結果がFALSEであるか
@@ -95,6 +95,8 @@ public final class SignInServlet extends HttpServlet {
         } catch(Exception e) {    // 例外である場合
             // 例外メッセージをログ出力します。
             log.catching(e);
+            
+            sqlSession.rollback();
 
             // サーブレット返却コードに401（認証失敗）を設定する。
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

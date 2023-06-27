@@ -106,6 +106,27 @@ public final class AccountDao extends AbstractBaseDao {
 
        return result;
     }
+    
+    public int accuntExists(SqlSession sqlSession, String identity, String password)
+            throws SQLException {
+        int result = -1;
+
+        String sql = "select authority from account "
+                + " where identity=? and password=?";
+
+        sqlSession = super.openSession();
+        
+       stmt.setString(1, identity);
+       stmt.setString(2, password);
+
+       ResultSet rs = stmt.executeQuery();
+
+       if (rs.next()) {
+           result = rs.getInt("authority");
+       }
+
+       return result;
+    }
 
     /**
      * 新規ユーザーの場合に、登録処理を行うメソッドです。

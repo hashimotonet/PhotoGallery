@@ -109,7 +109,7 @@ public final class SignInAction {
                 if(isAccountExists(id)) {
                     // ID は存在したので、
                     // ID とパスワードで、アカウントマスタを検索。
-                    authority = isAccountExists(id,password);
+                    authority = isAccountExists(sqlSession, id,password);
 
                     // アカウントマスタの検索結果に、アカウント権限を取得する。
                     if (authority != -1) {
@@ -206,12 +206,27 @@ public final class SignInAction {
             throws SQLException, ClassNotFoundException, IOException, URISyntaxException {
 
         int authority = -1;
+        SqlSession sqlSession = null;
 
-        AccountDao dao = new AccountDao();
+        AccountDao dao = new AccountDao(sqlSession);
 
         authority = dao.accuntExists(identity, password);
 
         dao.close();
+
+        return authority;
+    }
+
+    private int isAccountExists(SqlSession sqlSession, String identity, String password)
+            throws SQLException, ClassNotFoundException, IOException, URISyntaxException {
+
+        int authority = -1;
+
+        AccountDao dao = new AccountDao(sqlSession);
+
+        authority = dao.accuntExists(identity, password);
+
+        //dao.close();
 
         return authority;
     }
